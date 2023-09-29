@@ -25,16 +25,14 @@ def decimal_to_fibonacci(decimal: int) -> str:
 
 def fibonacci_to_decimal(fibonacci: str) -> int:
     result = 0
-    fibonacci = fibonacci[::-1]  # Разворачиваем строку в обратном порядке
+    fibonacci = fibonacci[::-1]
     fib_value = 1
     fib_prev = 0
-
     for digit in fibonacci:
         if digit == "1":
             result += fib_value
 
         fib_value, fib_prev = fib_value + fib_prev, fib_value
-
     return result
 
 
@@ -57,27 +55,29 @@ def decimal_to_factorial(decimal_num) -> str:
     return factorial_num[:-1]
 
 
-def convert_base(number: int, current: int, base: int) -> str:
+
+
+def convert_base(number, current, base):
     if isinstance(number, str):
         n = int(number, current)
     else:
-        n = int(str(number), current)
+        n = int(number)
     alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     if n < base:
         return alphabet[n]
-    else:
-        return convert_base(n // base, current, base) + alphabet[n % base]
+
+    return convert_base(n // base, current, base) + alphabet[n % base]
 
 
 def convert_base_with_float_number(number: str, current: int, base: int) -> str:
     integer_part, fractional_part = number.split('.') if '.' in number else (number, '0')
     alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    integer_result = int(convert_base(int(integer_part), 10, base))
+    integer_result = int(convert_base(str(integer_part), current, base))
     fractional_result = ""
     fractional_n = 0
     fractional_base = -1
     for digit in fractional_part:
-        fractional_n += alphabet.index(digit) * (current ** fractional_base)
+        fractional_n += int(digit) * (current ** fractional_base)
         fractional_base -= 1
     n = integer_result + fractional_n
     fractional_part = n - int(n)
